@@ -19,10 +19,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
-  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
+  const processFile = async (file: File) => {
     if (file.type !== 'application/pdf') {
       toast({
         title: "Invalid file type",
@@ -52,6 +49,12 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     }
   };
 
+  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    await processFile(file);
+  };
+
   const handleUploadClick = () => {
     fileInputRef.current?.click();
   };
@@ -65,18 +68,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     const files = event.dataTransfer.files;
     if (files.length > 0) {
       const file = files[0];
-      if (file.type === 'application/pdf') {
-        const fakeEvent = {
-          target: { files: [file] }
-        } as React.ChangeEvent<HTMLInputElement>;
-        handleFileSelect(fakeEvent);
-      } else {
-        toast({
-          title: "Invalid file type",
-          description: "Please select a PDF file.",
-          variant: "destructive"
-        });
-      }
+      processFile(file);
     }
   };
 

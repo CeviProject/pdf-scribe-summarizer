@@ -1,8 +1,8 @@
 import * as pdfjsLib from 'pdfjs-dist';
 import { Section } from '@/pages/Index';
 
-// Configure PDF.js worker with a more reliable CDN
-pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.js`;
+// Configure PDF.js worker - use a working CDN without CORS issues
+pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.js`;
 
 const SECTION_ALIASES = {
   "abstract": ["abstract"],
